@@ -5,6 +5,10 @@ import requests
 from requests import exceptions
 
 from .serializers import EventSerializer
+from environs import Env
+
+env = Env()
+env.read_env()
 
 
 class EventCreateView(generics.GenericAPIView):
@@ -17,8 +21,9 @@ class EventCreateView(generics.GenericAPIView):
         # posting data to zuri core after validation
         # the organization_id would be dynamic; based on the request data
         event = serializer.data
+        plugin_id = env.str("plugin_id")
         payload = {
-            "plugin_id": "613348c2bfba0a42d7f38e92",
+            "plugin_id": plugin_id,
             "organization_id": "Global Link",
             "collection_name": "events",
             "bulk_write": False,
