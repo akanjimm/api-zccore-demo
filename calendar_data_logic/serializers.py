@@ -1,3 +1,4 @@
+
 from rest_framework import serializers
 
 
@@ -12,3 +13,9 @@ class EventSerializer(serializers.Serializer):
     event_tag = serializers.CharField()
     availability = serializers.BooleanField()
     visibility = serializers.CharField()
+
+    def update(self, instance, validated_data):
+        for data in validated_data:
+            instance[data] = validated_data[data]
+
+        return self.instance
